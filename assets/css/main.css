@@ -1,0 +1,55 @@
+
+.planet{
+  width: 200px;
+  height: 200px;
+  background: #0af;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.planet .earth{
+  width: 100px;
+  height: 20px;
+  margin-bottom: 8px;
+  background: lightgreen;
+  border-radius: 50px;
+  animation: move 10s infinite linear;
+}
+.planet .earth.ellipse{
+	width: 30px;
+	height:30px;
+	margin-left: 100px;
+	animation-delay: 8s;
+}
+.planet .earth.right{
+	width: 70px;
+	margin-left:110px;
+}
+.planet .cloud{
+  position: absolute;
+  z-index: 999;
+  width: 60px;
+  height: 10px;
+  margin-bottom: 8px;
+  background: white;
+  border-radius: 50px;
+  animation: move-inverse 10s infinite linear;
+}
+
+@keyframes move {
+  0%{
+    transform: translate(-100px);
+  }
+  100%{
+    transform: translate(200px);
+  }
+}
+
+@keyframes move-inverse {
+  0%{
+    transform: translate(200px);
+  }
+  100%{
+    transform: translate(-100px);
+  }
+}
