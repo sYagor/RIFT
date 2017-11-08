@@ -7,20 +7,28 @@ var planets = [];
 var engrenagem;
 
 function setup(){
-  var canvas = createCanvas(innerWidth * 0.95,innerHeight);
-  
+  var canvas = createCanvas(innerWidth,innerHeight);
+
   //local onde o canvas ira ficar na pagina
-  canvas.parent("demo-holder"); 
-  
+  canvas.parent("demo-holder");
+
   //carrega sprites
   bg_img = loadImage("assets/images/fundo.png");
   engrenagem = loadImage("assets/images/engrenagem.png");
-  
+
   //cria objetos do jogo
+  var initialPosition = 0;
+  var finalPosition = width;
   for(var i = 0; i < 5; i++){
-    planets.push(new Planet(random(0,width), random(0,height)));
+    var x = random(initialPosition, finalPosition);
+    var y = random(0, height);
+    var pos = createVector(x,y);
+
+    planets.push(new Planet(x, y));
+    initialPosition += x + planets[i].r ;
+    finalPosition += planets[i].r ;
   }
-  
+
   planets[0].putPieces(5);
   player = new Player (planets[0]);
 

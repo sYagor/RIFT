@@ -2,7 +2,7 @@ class Player{
   constructor(planet){
     this.planet = planet;												//planeta target
     this.pos = planet.pos.copy();										// posicao
-    this.direction = 0;
+    this.direction = p5.Vector.fromAngle(radians(180));
     this.vel = 1.5;														//aceleracao do mesmo
     this.width = 30;
     this.height = 40;
@@ -28,8 +28,9 @@ class Player{
   	//se nao estiver trocando de planeta entao usa sprites do personagem
   	//senao usa o foguete
   	if(this.visible){
-		rotate(radians(this.direction));
-  		image(this.animation[ int(this.animationStatus / 10)], 0, 0, this.width, this.height);
+      var angleToRotate = atan2(this.direction.x, this.direction.y);
+      rotate(-angleToRotate + radians(180));
+		  image(this.animation[ int(this.animationStatus / 10)], 0, 0, this.width, this.height);
   	}else{
       this.rocket.render();
     }
@@ -47,37 +48,31 @@ class Player{
   }
 
   update(){
-    var force = createVector();
 
   	//se está distante do planeta alvo aplica forca em direcao ao alvo
   	if(this.pos.dist(this.planet.pos) > this.planet.r - this.width/2){
       this.getInsideRocket();
-      force = p5.Vector.fromAngle(radians(this.direction - 90));
+
       var path = this.pos.copy();
       path.sub(this.planet.pos);
-      var angle = degrees(force.angleBetween(path));
-      this.direction +=  angle;
-      this.force = p5.Vector.fromAngle(this.direction - 90);
+      var angle = degrees(this.direction.angleBetween(path));
+      this.direction.rotate(angle);
     }else{
       this.getOutsideRocket();
       this.changing = false;
     }
   	//se estiver andando aplica forca para 'frente'
   	if(this.walking){
-      force = p5.Vector.fromAngle(radians(this.direction - 90));
       this.animate();
     }
-
-  	//aplica a velocidade
-    force.mult(this.vel);
 
   	//testa se e uma posicao valida
   	//se sim entao adiciona a forca a posicao
   	var temp = this.pos.copy();
-    temp.sub(force);
-    if(temp.dist(this.planet.pos) < this.planet.r - this.width/2
+    temp.sub(this.direction.copy().mult(this.vel));
+    if(this.walking && temp.dist(this.planet.pos) < this.planet.r - this.width/2
         || this.changing){
-      this.pos.sub(force);
+      this.pos.sub(this.direction.copy().mult(this.vel));
     }
   }
 
@@ -106,11 +101,7 @@ class Player{
   }
 
   rotate(direction){
-    if(!this.changing){
-      this.direction += direction;
-      if(this.direction > 360) this.direction = 0;
-      if(this.direction < 0) this.direction = 360;
-    }
+    this.direction.rotate(radians(direction));
   }
 
   /**
