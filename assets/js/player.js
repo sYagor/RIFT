@@ -1,19 +1,19 @@
 class Player{
   constructor(planet){
     this.planet = planet;												//planeta target
-    this.pos = planet.pos.copy();										// posicao 
-    this.force = createVector();										//direcao 
+    this.pos = planet.pos.copy();										// posicao
+    this.direction = 0;
     this.vel = 1.5;														//aceleracao do mesmo
-    this.width = 30;													
+    this.width = 30;
     this.height = 40;
-    this.direction = 0;													//angulo de rotacao
     this.animationStatus = 0;											// controlador da animacao
     this.walking = false;												//se true está andando
     this.changing = false;												//se true é foguete
     this.animation = [loadImage("assets/images/player.png"),
                       loadImage("assets/images/player-left.png"),
-                      loadImage("assets/images/player-right.png")];		
-	this.rocket = loadImage("assets/images/rocket.png");
+                      loadImage("assets/images/player-right.png")];
+	  this.rocket = new Rocket(this.pos, this.direction);
+    this.visible = true;
     this.pieces = 0;
   }
 
@@ -22,17 +22,17 @@ class Player{
   */
   render(){
     push();
-	//rotaciona a imagem para a mesma direcao do personagem
-    translate(this.pos.x, this.pos.y);					
+  	//rotaciona a imagem para a mesma direcao do personagem
+    translate(this.pos.x, this.pos.y);
     rotate(radians(this.direction-180));
-	
-	//se nao estiver trocando de planeta entao usa sprites do personagem
-	//senao usa o foguete
-	if(!this.changing){
-		image(this.animation[ int(this.animationStatus / 10)], 0, 0, this.width, this.height);
-	}else{
-		image(this.rocket, 0, 0, this.width, this.height);
-	}
+
+  	//se nao estiver trocando de planeta entao usa sprites do personagem
+  	//senao usa o foguete
+  	if(this.visible){
+  		image(this.animation[ int(this.animationStatus / 10)], 0, 0, this.width, this.height);
+  	}else{
+      this.rocket.render();
+    }
     pop();
   }
 
@@ -47,33 +47,37 @@ class Player{
   }
 
   update(){
-	//se está distante do planeta alvo aplica forca em direcao ao alvo
-	if(this.pos.dist(this.planet.pos) > this.planet.r - this.width/2){
-      this.force = p5.Vector.fromAngle(radians(this.direction - 90));
+    var force = createVector();
+
+  	//se está distante do planeta alvo aplica forca em direcao ao alvo
+  	if(this.pos.dist(this.planet.pos) > this.planet.r - this.width/2){
+      this.getInsideRocket();
+      force = p5.Vector.fromAngle(radians(this.direction - 90));
       var path = this.pos.copy();
       path.sub(this.planet.pos);
-      var angle = degrees(this.force.angleBetween(path));
+      var angle = degrees(force.angleBetween(path));
       this.direction +=  angle;
       this.force = p5.Vector.fromAngle(this.direction - 90);
     }else{
+      this.getOutsideRocket();
       this.changing = false;
     }
-	//se estiver andando aplica forca para 'frente'
-	if(this.walking){
-      this.force = p5.Vector.fromAngle(radians(this.direction - 90));
+  	//se estiver andando aplica forca para 'frente'
+  	if(this.walking){
+      force = p5.Vector.fromAngle(radians(this.direction - 90));
       this.animate();
     }
 
-	//aplica a velocidade
-    this.force.mult(this.vel);	
-    
-	//testa se e uma posicao valida
-	//se sim entao adiciona a forca a posicao
-	var temp = this.pos.copy();
-    temp.add(this.force);
+  	//aplica a velocidade
+    force.mult(this.vel);
+
+  	//testa se e uma posicao valida
+  	//se sim entao adiciona a forca a posicao
+  	var temp = this.pos.copy();
+    temp.sub(force);
     if(temp.dist(this.planet.pos) < this.planet.r - this.width/2
         || this.changing){
-      this.pos.add(this.force);
+      this.pos.sub(force);
     }
   }
 
@@ -90,7 +94,15 @@ class Player{
   stop(){
     this.walking = false;
     this.animationStatus = 0;
-    this.force = createVector(); // reseta forca
+  }
+  getInsideRocket(){
+    this.visible = false;
+    this.rocket.visible = true;
+  }
+
+  getOutsideRocket(){
+    this.visible = true;
+    this.rocket.visible = false;
   }
 
   rotate(direction){
