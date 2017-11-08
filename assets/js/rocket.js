@@ -10,6 +10,7 @@ class Rocket {
   }
 
   render(){
+	rotate(radians(this.direction-90));
     image(
       this.sprite,
       0,

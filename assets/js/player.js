@@ -24,11 +24,11 @@ class Player{
     push();
   	//rotaciona a imagem para a mesma direcao do personagem
     translate(this.pos.x, this.pos.y);
-    rotate(radians(this.direction-180));
 
   	//se nao estiver trocando de planeta entao usa sprites do personagem
   	//senao usa o foguete
   	if(this.visible){
+		rotate(radians(this.direction));
   		image(this.animation[ int(this.animationStatus / 10)], 0, 0, this.width, this.height);
   	}else{
       this.rocket.render();
