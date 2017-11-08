@@ -55,7 +55,8 @@ class Player{
 
       var path = this.pos.copy();
       path.sub(this.planet.pos);
-      var angle = degrees(this.direction.angleBetween(path));
+      var angle = this.direction.angleBetween(path);
+      
       this.direction.rotate(angle);
     }else{
       this.getOutsideRocket();

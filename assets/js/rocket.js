@@ -11,7 +11,7 @@ class Rocket {
 
   render(){
     var angleToRotate = atan2(this.direction.x, this.direction.y);
-    rotate(angleToRotate);
+    rotate(-angleToRotate);
     image(
       this.sprite,
       0,
