@@ -1,6 +1,6 @@
 class Rocket {
   constructor(position, direction) {
-	
+
     this.sprite = loadImage("assets/images/rocket.png");
     //posicao e direcao sao as mesmas do player
     this.pos = position;
@@ -8,6 +8,7 @@ class Rocket {
     this.width = 30;
     this.height =50;
     this.visible = false;
+    spaceshipsound();
   }
 
   render(){
@@ -22,8 +23,7 @@ class Rocket {
     );
   }
 
-   
-spaceshipsound();
+
 }
 function spaceshipsound(){
 	if ( fly = true ){
@@ -32,6 +32,6 @@ function spaceshipsound(){
 	}else{
 	alert("eae");
 	}
-	
-	
+
+
  }
