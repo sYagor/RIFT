@@ -93,11 +93,13 @@ class Player{
     this.visible = false;
     this.flying = true;
     this.rocket.visible = true;
+  	somnave.play();
   }
 
   getOutsideRocket(){
     this.visible = true;
     this.rocket.visible = false;
+    somnave.pause();
   }
 
   rotate(direction){
@@ -153,4 +155,5 @@ class Player{
       this.getInsideRocket();
     }
   }
+
 }

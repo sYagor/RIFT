@@ -8,7 +8,6 @@ class Rocket {
     this.width = 30;
     this.height =50;
     this.visible = false;
-    spaceshipsound();
   }
 
   render(){
@@ -25,13 +24,3 @@ class Rocket {
 
 
 }
-function spaceshipsound(){
-	if ( fly = true ){
-	nave();
-	somnave.play();
-	}else{
-	alert("eae");
-	}
-
-
- }

@@ -11,6 +11,7 @@ var maxWorldWidth;
 function setup(){
   var canvas = createCanvas(innerWidth,innerHeight);
   maxWorldWidth = width;
+  musicaFundo(0);
   //local onde o canvas ira ficar na pagina
   canvas.parent("demo-holder");
 
