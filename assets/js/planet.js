@@ -1,8 +1,12 @@
 class Planet{
+  /**
+  f = (gravidade * massa nave * massa planeta)/ distancia²
+  futuro distante =|
+  */
   constructor(x, y){
     this.pieces = [];
     this.pos = createVector(x, y);
-
+    this.visited = false;
 	//o raio e um valor aleatorio entre 60 e 90
     this.r = random(90, 180);
 
@@ -18,17 +22,19 @@ class Planet{
     image(this.aura, this.pos.x, this.pos.y, this.raura * 2, this.raura * 2);
     image(this.sprite, this.pos.x, this.pos.y, this.r * 2, this.r * 2);
     //desenha as pecas no planeta
-	for (var i = 0; i < this.pieces.length; i++) {
+	  for (var i = 0; i < this.pieces.length; i++) {
      this.pieces[i].render();
     }
   }
 
   putPieces(qtd){
-    for(var i = 0; i < qtd; i++ ){
-      this.pieces.push(
-        new Piece(
-          random(this.pos.x - this.r + 40, this.pos.x + this.r -40),
-          random(this.pos.y - this.r + 40, this.pos.y + this.r - 40)));
+    if(!this.visited){
+      for(var i = 0; i < qtd; i++ ){
+        this.pieces.push(
+          new Piece(
+            random(this.pos.x - this.r + 40, this.pos.x + this.r -40),
+            random(this.pos.y - this.r + 40, this.pos.y + this.r - 40)));
+      }
     }
   }
 

@@ -1,14 +1,15 @@
 class Player{
   constructor(planet){
     this.planet = planet;												//planeta target
+    this.planet.visited = true;
     this.pos = planet.pos.copy();										// posicao
-    this.direction = p5.Vector.fromAngle(radians(180));
-    this.vel = 1.5;														//aceleracao do mesmo
+    this.direction = p5.Vector.fromAngle(radians(90));
+    this.vel = 1.8;														//aceleracao do mesmo
     this.width = 30;
     this.height = 40;
     this.animationStatus = 0;											// controlador da animacao
     this.walking = false;												//se true está andando
-    this.changing = false;												//se true é foguete
+    this.flying = false;												//se true é foguete
     this.animation = [loadImage("assets/images/player.png"),
                       loadImage("assets/images/player-left.png"),
                       loadImage("assets/images/player-right.png")];
@@ -49,32 +50,28 @@ class Player{
 
   update(){
 
-  	//se está distante do planeta alvo aplica forca em direcao ao alvo
-  	if(this.pos.dist(this.planet.pos) > this.planet.r - this.width/2){
-      this.getInsideRocket();
 
-      var path = this.pos.copy();
-      path.sub(this.planet.pos);
-      var angle = this.direction.angleBetween(path);
-      
-      this.direction.rotate(angle);
-    }else{
-      this.getOutsideRocket();
-      this.changing = false;
-    }
-  	//se estiver andando aplica forca para 'frente'
   	if(this.walking){
       this.animate();
     }
 
-  	//testa se e uma posicao valida
-  	//se sim entao adiciona a forca a posicao
-  	var temp = this.pos.copy();
+    //valida posicao
+    var temp = this.pos.copy();
     temp.sub(this.direction.copy().mult(this.vel));
+
+    if(this.pos.y < -360){
+      this.direction.rotate(radians(1));
+    }
+    if(this.pos.y > height + 360){
+      this.direction.rotate(radians(-1));
+    }
+
     if(this.walking && temp.dist(this.planet.pos) < this.planet.r - this.width/2
-        || this.changing){
+        || this.flying){
       this.pos.sub(this.direction.copy().mult(this.vel));
     }
+
+    this.catchPiece();
   }
 
   /**
@@ -91,8 +88,10 @@ class Player{
     this.walking = false;
     this.animationStatus = 0;
   }
+
   getInsideRocket(){
     this.visible = false;
+    this.flying = true;
     this.rocket.visible = true;
   }
 
@@ -106,23 +105,52 @@ class Player{
   }
 
   /**
-  *se o planeta atual nao tiver pecas entao vai para o planeta novo
+  *se o planeta alvo nao for o anterior e vc esta dentro dele
+  *muda para ele e desce da nave
   */
   changePlanet(planet){
-    if(this.planet.pieces.length <=0){
-      this.changing = true;
-      planet.putPieces(5);
-      this.planet = planet;
+    if(this.planet != planet){
+      // orbita, faz a gravidade puxar a nave
+      if(this.flying && this.pos.dist(planet.pos) < planet.raura + this.rocket.height){
+          var path = this.pos.copy();
+          path.sub(planet.pos);
+          path.normalize();
+          var angle = path.angleBetween(this.direction);
+          var ondeDegree = PI / 180;
+
+          //aqui temos um bug
+          //gravidade as vezes empurra ao invez de puxar
+          if(this.pos.y > planet.pos.y && this.pos.x < planet.pos.x ||
+             this.pos.x > planet.pos.x && this.pos.y < planet.pos.y )
+            this.direction.rotate(angle > ondeDegree ? -ondeDegree : -angle);
+          else
+            this.direction.rotate(angle > ondeDegree ? ondeDegree : angle);
+      }
+
+      if(this.pos.dist(planet.pos) < planet.r - this.width/2){
+        this.flying = false;
+        planet.putPieces(5);
+        this.planet = planet;
+        this.getOutsideRocket();
+        this.planet.visited = true;
+        return true;
+      }
     }
+    return false;
   }
 
+
   catchPiece(){
-    for (var i = 0; i < this.planet.pieces.length; i++) {
-      var piece = this.planet.pieces[i];
-      if(this.pos.dist(piece.pos) < piece.r){
-        this.planet.pieces.pop(piece);
+    var pieces = this.planet.pieces;
+    for (var i = 0; i < pieces.length; i++) {
+      if(this.pos.dist(pieces[i].pos) < this.width){
+        pieces.splice(i, 1);
         this.pieces++;
       }
+    }
+    //se nao tem pecas entra na nave
+    if(this.planet.pieces.length <= 0){
+      this.getInsideRocket();
     }
   }
 }

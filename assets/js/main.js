@@ -5,10 +5,12 @@ var right = false;
 var jump = false;
 var planets = [];
 var engrenagem;
+var minWorldWidth = 0;
+var maxWorldWidth;
 
 function setup(){
   var canvas = createCanvas(innerWidth,innerHeight);
-
+  maxWorldWidth = width;
   //local onde o canvas ira ficar na pagina
   canvas.parent("demo-holder");
 
@@ -17,21 +19,26 @@ function setup(){
   engrenagem = loadImage("assets/images/engrenagem.png");
 
   //cria objetos do jogo
-  var initialPosition = 0;
-  var finalPosition = width;
   for(var i = 0; i < 5; i++){
-    var x = random(initialPosition, finalPosition);
-    var y = random(0, height);
-    var pos = createVector(x,y);
-
-    planets.push(new Planet(x, y));
-    initialPosition += x + planets[i].r ;
-    finalPosition += planets[i].r ;
+    createPlanet(i);
   }
 
   planets[0].putPieces(5);
   player = new Player (planets[0]);
 
+}
+
+function createPlanet(index){
+
+    var x = random(minWorldWidth, maxWorldWidth);
+    var y = random(0, height);
+    var pos = createVector(x,y);
+
+    planets.push(new Planet(x, y));
+
+    //aumenta o mundo horizontalmente
+    minWorldWidth = x + planets[index].r * 2 ;
+    maxWorldWidth = x + width/2;
 }
 
 function draw(){
@@ -47,13 +54,16 @@ function draw(){
 
   //desenha os objetos na tela
   for(var i = 0; i < planets.length; i++){
-    if(planets[i] != player.plannet)
-      planets[i].render();
+    planets[i].render();
+
+    player.changePlanet(planets[i]);
   }
   player.planet.render();
 
-  player.catchPiece();
-
+  //se esta na "metade do mundo" cria um novo planeta
+  if(player.pos.x >= maxWorldWidth/2){
+      createPlanet(planets.length-1);
+  }
 
   if(left) player.rotate(-player.vel);
   if(right) player.rotate(player.vel);
@@ -87,18 +97,6 @@ function keyPressed(){
       break;
     default:
 
-  }
-}
-
-function mousePressed(){
-  for (var i = 0; i < planets.length; i++) {
-	// altera a posicao do mouse para que as coordenadas batam com as do jogo
-    // em seguida se o planeta clicado nao é o atual vai para elee
-	var mousePos = createVector(mouseX - (width/2 - player.pos.x) , mouseY - (height/2 - player.pos.y));
-    if(planets[i].pos.dist(mousePos) < planets[i].r){
-      if(player.planet != planets[i])
-        player.changePlanet(planets[i]);
-    }
   }
 }
 
