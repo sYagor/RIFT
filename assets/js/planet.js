@@ -2,7 +2,7 @@ class Planet{
   constructor(x, y){
     this.pieces = [];
     this.pos = createVector(x, y);
-
+    this.visited = false;
 	//o raio e um valor aleatorio entre 60 e 90
     this.r = random(90, 180);
 
@@ -24,11 +24,13 @@ class Planet{
   }
 
   putPieces(qtd){
-    for(var i = 0; i < qtd; i++ ){
-      this.pieces.push(
-        new Piece(
-          random(this.pos.x - this.r + 40, this.pos.x + this.r -40),
-          random(this.pos.y - this.r + 40, this.pos.y + this.r - 40)));
+    if(!this.visited){
+      for(var i = 0; i < qtd; i++ ){
+        this.pieces.push(
+          new Piece(
+            random(this.pos.x - this.r + 40, this.pos.x + this.r -40),
+            random(this.pos.y - this.r + 40, this.pos.y + this.r - 40)));
+      }
     }
   }
 

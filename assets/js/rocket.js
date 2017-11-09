@@ -5,7 +5,7 @@ class Rocket {
     this.pos = position;
     this.direction = direction;
     this.width = 30;
-    this.height =40;
+    this.height =50;
     this.visible = false;
   }
 

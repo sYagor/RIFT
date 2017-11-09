@@ -1,9 +1,10 @@
 class Player{
   constructor(planet){
     this.planet = planet;												//planeta target
+    this.planet.visited = true;
     this.pos = planet.pos.copy();										// posicao
-    this.direction = p5.Vector.fromAngle(radians(180));
-    this.vel = 1.5;														//aceleracao do mesmo
+    this.direction = p5.Vector.fromAngle(radians(90));
+    this.vel = 1.8;														//aceleracao do mesmo
     this.width = 30;
     this.height = 40;
     this.animationStatus = 0;											// controlador da animacao
@@ -49,32 +50,31 @@ class Player{
 
   update(){
 
-  	//se está distante do planeta alvo aplica forca em direcao ao alvo
-  	if(this.pos.dist(this.planet.pos) > this.planet.r - this.width/2){
-      this.getInsideRocket();
-
+    if(this.changing && this.pos.dist(this.planet.pos) < this.planet.raura){
       var path = this.pos.copy();
       path.sub(this.planet.pos);
-      var angle = this.direction.angleBetween(path);
-
-      this.direction.rotate(angle);
-    }else{
-      this.getOutsideRocket();
-      this.changing = false;
+      var angleToRotate = this.direction.angleBetween(path);
+      this.direction.rotate(angleToRotate);
     }
-  	//se estiver andando aplica forca para 'frente'
+
   	if(this.walking){
       this.animate();
     }
 
-  	//testa se e uma posicao valida
-  	//se sim entao adiciona a forca a posicao
-  	var temp = this.pos.copy();
+    //valida posicao
+    var temp = this.pos.copy();
     temp.sub(this.direction.copy().mult(this.vel));
+
+    if(this.pos.y < -180){
+      this.direction.rotate(radians(15));
+    }
+    if(this.pos.y > height + 180){
+      this.direction.rotate(radians(-15));
+    }
+
     if(this.walking && temp.dist(this.planet.pos) < this.planet.r - this.width/2
         || this.changing){
       this.pos.sub(this.direction.copy().mult(this.vel));
-      //testando
     }
   }
 
@@ -92,8 +92,10 @@ class Player{
     this.walking = false;
     this.animationStatus = 0;
   }
+
   getInsideRocket(){
     this.visible = false;
+    this.changing = true;
     this.rocket.visible = true;
   }
 
@@ -107,15 +109,22 @@ class Player{
   }
 
   /**
-  *se o planeta atual nao tiver pecas entao vai para o planeta novo
+  *se o planeta alvo nao for o anterior e vc esta dentro dele
+  *muda para ele e desce da nave
   */
   changePlanet(planet){
-    if(this.planet.pieces.length <=0){
-      this.changing = true;
+    if(this.planet != planet &&
+        this.pos.dist(planet.pos) < planet.r - this.width/2){
+      this.changing = false;
       planet.putPieces(5);
       this.planet = planet;
+      this.getOutsideRocket();
+      this.planet.visited = true;
+      return true;
     }
+    return false;
   }
+
 
   catchPiece(){
     for (var i = 0; i < this.planet.pieces.length; i++) {
@@ -124,6 +133,10 @@ class Player{
         this.planet.pieces.pop(piece);
         this.pieces++;
       }
+    }
+    //se nao tem pecas entra na nave
+    if(this.planet.pieces.length <= 0){
+      this.getInsideRocket();
     }
   }
 }
