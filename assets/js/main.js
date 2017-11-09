@@ -80,6 +80,21 @@ function draw(){
   text("" +player.pieces, width/2, 60);
 }
 
+function mousePressed() {
+  if(mouseX > width/2){
+    right = true;
+  }else{
+    left = true;
+  }
+  player.walk();
+}
+
+function mouseReleased() {
+  player.stop();
+  left = false;
+  right = false;
+}
+
 function keyPressed(){
   switch (keyCode) {
     case 65:
