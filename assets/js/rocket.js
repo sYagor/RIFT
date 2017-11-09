@@ -1,5 +1,6 @@
 class Rocket {
   constructor(position, direction) {
+	
     this.sprite = loadImage("assets/images/rocket.png");
     //posicao e direcao sao as mesmas do player
     this.pos = position;
@@ -21,5 +22,16 @@ class Rocket {
     );
   }
 
-
+   
+spaceshipsound();
 }
+function spaceshipsound(){
+	if ( fly = true ){
+	nave();
+	somnave.play();
+	}else{
+	alert("eae");
+	}
+	
+	
+ }
