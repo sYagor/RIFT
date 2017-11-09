@@ -9,7 +9,7 @@ class Player{
     this.height = 40;
     this.animationStatus = 0;											// controlador da animacao
     this.walking = false;												//se true está andando
-    this.changing = false;												//se true é foguete
+    this.flying = false;												//se true é foguete
     this.animation = [loadImage("assets/images/player.png"),
                       loadImage("assets/images/player-left.png"),
                       loadImage("assets/images/player-right.png")];
@@ -50,12 +50,6 @@ class Player{
 
   update(){
 
-    if(this.changing && this.pos.dist(this.planet.pos) < this.planet.raura){
-      var path = this.pos.copy();
-      path.sub(this.planet.pos);
-      var angleToRotate = this.direction.angleBetween(path);
-      this.direction.rotate(angleToRotate);
-    }
 
   	if(this.walking){
       this.animate();
@@ -65,15 +59,15 @@ class Player{
     var temp = this.pos.copy();
     temp.sub(this.direction.copy().mult(this.vel));
 
-    if(this.pos.y < -180){
-      this.direction.rotate(radians(15));
+    if(this.pos.y < -360){
+      this.direction.rotate(radians(1));
     }
-    if(this.pos.y > height + 180){
-      this.direction.rotate(radians(-15));
+    if(this.pos.y > height + 360){
+      this.direction.rotate(radians(-1));
     }
 
     if(this.walking && temp.dist(this.planet.pos) < this.planet.r - this.width/2
-        || this.changing){
+        || this.flying){
       this.pos.sub(this.direction.copy().mult(this.vel));
     }
   }
@@ -95,7 +89,7 @@ class Player{
 
   getInsideRocket(){
     this.visible = false;
-    this.changing = true;
+    this.flying = true;
     this.rocket.visible = true;
   }
 
@@ -113,14 +107,32 @@ class Player{
   *muda para ele e desce da nave
   */
   changePlanet(planet){
-    if(this.planet != planet &&
-        this.pos.dist(planet.pos) < planet.r - this.width/2){
-      this.changing = false;
-      planet.putPieces(5);
-      this.planet = planet;
-      this.getOutsideRocket();
-      this.planet.visited = true;
-      return true;
+    if(this.planet != planet){
+      // orbita, faz a gravidade puxar a nave
+      if(this.flying && this.pos.dist(planet.pos) < planet.raura + this.rocket.height){
+          var path = this.pos.copy();
+          path.sub(planet.pos);
+          path.normalize();
+          var angle = path.angleBetween(this.direction);
+          var ondeDegree = PI / 180;
+
+          //aqui temos um bug
+          //gravidade as vezes empurra ao invez de puxar
+          if(this.pos.y > planet.pos.y && this.pos.x < planet.pos.x ||
+             this.pos.x > planet.pos.x && this.pos.y < planet.pos.y)
+            this.direction.rotate(angle > ondeDegree ? -ondeDegree : -angle);
+          else
+            this.direction.rotate(angle > ondeDegree ? ondeDegree : angle);
+          angleToRotate = atan2(this.direction.x, this.direction.y);
+      }
+      if(this.pos.dist(planet.pos) < planet.r - this.width/2){
+        this.flying = false;
+        planet.putPieces(5);
+        this.planet = planet;
+        this.getOutsideRocket();
+        this.planet.visited = true;
+        return true;
+      }
     }
     return false;
   }
