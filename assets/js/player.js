@@ -120,8 +120,8 @@ class Player{
 
           //aqui temos um bug
           //gravidade as vezes empurra ao invez de puxar
-          if(this.pos.y > planet.pos.y && this.pos.x < planet.pos.x && this.direction.y > 0||
-             this.pos.x > planet.pos.x && this.pos.y < planet.pos.y && this.direction.x > 0)
+          if(this.pos.y > planet.pos.y && this.pos.x < planet.pos.x ||
+             this.pos.x > planet.pos.x && this.pos.y < planet.pos.y )
             this.direction.rotate(angle > ondeDegree ? -ondeDegree : -angle);
           else
             this.direction.rotate(angle > ondeDegree ? ondeDegree : angle);
@@ -142,13 +142,9 @@ class Player{
 
   catchPiece(){
     var pieces = this.planet.pieces;
-    console.log("===========");
     for (var i = 0; i < pieces.length; i++) {
       if(this.pos.dist(pieces[i].pos) < this.width){
-        console.log("removeu" + pieces.length);
-        console.log(pieces);
         pieces.splice(i, 1);
-        pieces.pop(i);
         this.pieces++;
       }
     }
