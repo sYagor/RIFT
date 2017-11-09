@@ -1,4 +1,8 @@
 class Planet{
+  /**
+  f = (gravidade * massa nave * massa planeta)/ distancia²
+  futuro distante =|
+  */
   constructor(x, y){
     this.pieces = [];
     this.pos = createVector(x, y);
@@ -18,7 +22,7 @@ class Planet{
     image(this.aura, this.pos.x, this.pos.y, this.raura * 2, this.raura * 2);
     image(this.sprite, this.pos.x, this.pos.y, this.r * 2, this.r * 2);
     //desenha as pecas no planeta
-	for (var i = 0; i < this.pieces.length; i++) {
+	  for (var i = 0; i < this.pieces.length; i++) {
      this.pieces[i].render();
     }
   }

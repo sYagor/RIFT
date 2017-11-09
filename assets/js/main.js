@@ -58,7 +58,6 @@ function draw(){
 
     player.changePlanet(planets[i]);
   }
-  player.catchPiece();
   player.planet.render();
 
   //se esta na "metade do mundo" cria um novo planeta
