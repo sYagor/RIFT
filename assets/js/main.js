@@ -38,8 +38,8 @@ function createPlanet(index){
     planets.push(new Planet(x, y));
 
     //aumenta o mundo horizontalmente
-    minWorldWidth = x + planets[index].r * 2 ;
-    maxWorldWidth = x + width/2;
+    minWorldWidth = x + planets[index].r * 3 ;
+    maxWorldWidth = x + width;
 }
 
 function draw(){
