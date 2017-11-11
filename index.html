@@ -12,34 +12,42 @@
     <script src="assets/js/rocket.js" charset="utf-8"></script>
     <script src="assets/js/player.js" charset="utf-8"></script>
 
-	<button type="button" onclick="musicaFundo()" id="musica" ><strong>Audio</strong></button>
-
     <style media="screen">
       *{
         margin: 0;
         padding: 0;
       }
+      .modal{
+        position: fixed;
+        top:0
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        z-index: 9999;
+      }
     </style>
   </head>
   <body>
-    <div id="demo-holder">
 
+    <div class="modal">
+      <div id="demo-holder"></div>
     </div>
-    <script src="assets/js/main.js" charset="utf-8"></script>
+    	<button type="button" onclick="musicaFundo()" id="musica" ><strong>Audio</strong></button>
 
 				   <!-- audios -->
-
 	  <audio id="myAudio"    loop
-    < source src="assets/audios/musicafundo1.mp3"
+        < source src="assets/audios/musicafundo1.mp3"
          type='audio/mp3'>
-</audio>
+       </audio>
 
-  <audio id="somnave"
- <source src="assets/audios/voando.wav"
+      <audio id="somnave"
+        <source src="assets/audios/voando.wav"
          type='audio/mp4'>
 
-</audio>
+       </audio>
 
 
+    <script src="assets/js/main.js" charset="utf-8"></script>
   </body>
 </html>
