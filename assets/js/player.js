@@ -117,16 +117,24 @@ class Player{
           var path = this.pos.copy();
           path.sub(planet.pos);
           path.normalize();
-          var angle = path.angleBetween(this.direction);
-          var ondeDegree = PI / 180;
+
+          var targetAngle = atan2(path.x, path.y);
+          var currentAngle = atan2(this.direction.x, this.direction.y);
+          var change = currentAngle - targetAngle;
+          var absChange = change < 0 ? -change : change;
+          var maxRotation = PI / 180;
+
+          this.direction.rotate(
+            absChange > maxRotation ? (Math.sign(change) * maxRotation) : change
+          );
 
           //aqui temos um bug
           //gravidade as vezes empurra ao invez de puxar
-          if(this.pos.y > planet.pos.y && this.pos.x < planet.pos.x ||
+        /**  if(this.pos.y > planet.pos.y && this.pos.x < planet.pos.x ||
              this.pos.x > planet.pos.x && this.pos.y < planet.pos.y )
             this.direction.rotate(angle > ondeDegree ? -ondeDegree : -angle);
           else
-            this.direction.rotate(angle > ondeDegree ? ondeDegree : angle);
+            this.direction.rotate(angle > ondeDegree ? ondeDegree : angle);*/
       }
 
       if(this.pos.dist(planet.pos) < planet.r - this.width/2){

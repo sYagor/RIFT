@@ -7,7 +7,7 @@ var planets = [];
 var engrenagem;
 var minWorldWidth = 0;
 var maxWorldWidth;
-
+var touching = false;
 function setup(){
   var canvas = createCanvas(innerWidth,innerHeight);
   maxWorldWidth = width;
@@ -70,6 +70,24 @@ function draw(){
   if(right) player.rotate(player.vel);
 
   player.update();
+  if(touching){
+    var mousePos = createVector(
+                          mouseX - (width/2 - player.pos.x),
+                          mouseY - (height/2 - player.pos.y));
+    var path = player.pos.copy();
+    path.sub(mousePos);
+    path.normalize();
+
+    var targetAngle = atan2(path.x, path.y);
+    var currentAngle = atan2(player.direction.x, player.direction.y);
+    var change = currentAngle - targetAngle;
+    var absChange = change < 0 ? -change : change;
+    var maxRotation = player.vel;
+
+    player.rotate(degrees(
+      absChange > maxRotation ? (Math.sign(change) * maxRotation) : change
+    ));
+  }
   player.render();
   pop();
 
@@ -81,18 +99,13 @@ function draw(){
 }
 
 function mousePressed() {
-  if(mouseX > width/2){
-    right = true;
-  }else{
-    left = true;
-  }
+  touching = true;
   player.walk();
 }
 
 function mouseReleased() {
   player.stop();
-  left = false;
-  right = false;
+  touching = false;
 }
 
 function keyPressed(){
