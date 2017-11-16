@@ -2,52 +2,147 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Ryft</title>
-    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R.I.F.T</title>
+    <link rel="shortcut icon" href="/assets/images/icone.png">
     <link rel="stylesheet" href="assets/css/main.css">
-    <script src="assets/js/p5.js" charset="utf-8"></script>
-    <script src="assets/js/piece.js" charset="utf-8"></script>
-    <script src="assets/js/planet.js" charset="utf-8"></script>
-	<script src="assets/js/audio.js" charset="utf-8"></script>
-    <script src="assets/js/rocket.js" charset="utf-8"></script>
-    <script src="assets/js/player.js" charset="utf-8"></script>
-
-    <style media="screen">
-      *{
-        margin: 0;
-        padding: 0;
-      }
-      .modal{
-        position: fixed;
-        top:0
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        overflow: hidden;
-        z-index: 9999;
-      }
-    </style>
+    <script src="assets/js/jquery.js" charset="utf-8"></script>
   </head>
   <body>
+    <header>
+      <div class="header-top">
+        <h1>R.Y.F.T</h1>
+        <div class="btn-toggle">
+          <span></span>
+        </div>
+      </div>
 
-    <div class="modal">
-      <div id="demo-holder"></div>
-    </div>
-    	<button type="button" onclick="musicaFundo()" id="musica" ><strong>Audio</strong></button>
+      <nav class="navbar">
+        <ul class="nav">
+          <li><a href="#intro">HOME</a></li>
+          <li><a href="#about">SOBRE</a></li>
+          <li><a href="#demo">DEMO</a></li>
+        </ul>
+      </nav>
 
-				   <!-- audios -->
-	  <audio id="myAudio"    loop
-        < source src="assets/audios/musicafundo1.mp3"
-         type='audio/mp3'>
-       </audio>
+    </header>
 
-      <audio id="somnave"
-        <source src="assets/audios/voando.wav"
-         type='audio/mp4'>
+    <section id="intro">
+      <article class="jumbo">
+        <h2>Ao Infinito e Além</h2>
+        <a href="#" class="btn">jogue gratis aqui!</a>
+      </article>
+    </section>
 
-       </audio>
+    <main>
+      <div class="content">
+
+        <section id="about" class="row">
+          <article class="cardbox col-full">
+            <h3>Prólogo</h3>
+            <p>Enquanto realizava reparos nos satélites do espaço cósmico, Jhon, um mecânico se depara com naves piratas, elas tentam se aproximar de sua nave para abordar, vendo que não conseguem, partem para uma abordagem mais agressiva. Em fuga, Jhon é atingido por uma explosão entrando em rota de colisão. Quando acorda, percebe que os piratas foram embora, vê que está em uma lua de um planeta vermelho, verifica seu equipamento e vê que não a danos, sua nave está quebrada em vários pedaços, em seu rádio, não consegue contato algum, somente estática, ele precisa encontrar o caminho para casa, está sozinho no espaço, nenhuma ajuda vira por ele. </p>
+          </article>
+          <article class="cardbox col-big">
+            <div class="cardbox-title">
+              <h3>Sobre</h3>
+            </div>
+            <div class="cardbox-content">
+              <p>Space R.Y.F.T. é um jogo desenvolvido por estudantes da PUC Campinas do curso Jogos Digitais (Superior de Tecnologia). O jogo foi projetado para plataforma mobile, apresentando o gênero puzzle inspirado na dinâmica do Angry Birds Space. A sigla utilizada origina-se das iniciais dos integrantes: Raiate, Yago, Francisco e Túlio.</p>
+            </div>
+          </article>
+
+          <iframe class="trailer col-big" src="https://www.youtube.com/embed/VJDJs9dumZI" frameborder="0" allowfullscreen></iframe>
+
+        </section>
+        <section id="feactures" class="row">
+
+          <h2 class="col-full">Sei la</h2>
+
+          <article class="cardbox col-small">
+            <img class="feacture astro" src="assets/images/astro.png" alt="">
+            <p>Junte-se ao astronauta John e ajude-o em uma extraordinária aventura através das maravilhas do espaço sideral.</p>
+          </article>
+
+          <article class="cardbox col-small">
+            <img class="feacture" src="assets/images/Cristal.png" alt="">
+            <p>Crie corpos celestes, colete estrelas e atravesse incríveis fendas espaciais em busca de um caminho de volta para o planeta Terra através de 9 níveis nessa fantastica aventura de quebra-cabeças. </p>
+          </article>
+
+          <article class="cardbox col-small">
+              <img class="feacture" src="assets/images/gelado.png" alt="">
+              <p>Desbrave o universo sozinho ou jogue com amigos para ver quem consegue atravessar o universo no menor tempo.</p>
+          </article>
+
+          <article class="cardbox col-small">
+            <img class="feacture" src="assets/images/atom.png" alt="">
+            <p>Encontre e colete os misteriosos "Orbes do Conhecimento", para desbloquear conquistas, colecionar figuras e revelar grandes informações sobre a Corrida Espacial e outros fatos, curiosidades sobre o universo.</p>
+          </article>
 
 
-    <script src="assets/js/main.js" charset="utf-8"></script>
+        </section>
+        <section id="demo">
+          <p><strong>Pegue as peças para construir o foguete e chegar até o proximo planeta</strong></p>
+          <div class="itens row">
+            <div class="item col-smal">
+              <img src="assets/images/pecas/1.png" alt="peça">
+              <p>legenda</p>
+            </div>
+            <div class="item col-smal">
+              <img src="assets/images/pecas/2.png" alt="peça">
+              <p>legenda</p>
+            </div>
+            <div class="item col-smal">
+              <img src="assets/images/pecas/5.png" alt="peça">
+              <p>legenda</p>
+            </div>
+            <div class="item col-smal">
+              <img src="assets/images/pecas/4.png" alt="peça">
+              <p>legenda</p>
+            </div>
+            <div class="item col-smal">
+              <img src="assets/images/pecas/3.png" alt="peça">
+              <p>legenda</p>
+            </div>
+          </div>
+
+          <p><strong>Controles:</strong> A, S, D, W</p>
+          <a href="demo.html" class="btn demo">Play the Demo</a>
+        </section>
+      </div>
+
+    </main>
+
+    <footer>
+      <h2> Entre em contato com a equipe </h2>
+      <div class="contatos">
+        <p><a href="mailto:raiate@gmail.com"> Raiate Franca </a></p>
+        <p><a href="mailto:yagolamanatavares@gmail.com">Yago Lamana Tavares </a></p>
+        <p><a href="mailto:franciscojr.995@gmail.com">Francisco Silva Bueno</a></p>
+        <p><a href="mailto:tuliopulgrossi91@gmail.com">Tulio Pulgrossi</a></p>
+        <p><a href="mailto:herogamer28@gmail.com"> Gabriel de Castro Torres </a></p>
+        <p><a href="mailto:johnatan.marinho@gmail.com"> Johnatan Marinho</a></p>
+        </div>
+
+    </footer>
+    <script type="text/javascript">
+      $(document).ready(function(){
+
+        $(window).scroll(function(){
+          if($(this).scrollTop() > 50){
+            $("header").addClass("floating");
+          }else{
+            $("header").removeClass("floating");
+          }
+        });
+
+        $(".btn-toggle").on("click", function(){
+          if($(".navbar").hasClass("opened")){
+            $(".navbar").removeClass("opened");
+          }else{
+            $(".navbar").addClass("opened");
+          }
+        });
+      });
+    </script>
   </body>
 </html>

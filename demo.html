@@ -2,9 +2,51 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Teste</title>
+    <title>Ryft</title>
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <script src="assets/js/p5.js" charset="utf-8"></script>
+    <script src="assets/js/piece.js" charset="utf-8"></script>
+    <script src="assets/js/planet.js" charset="utf-8"></script>
+	<script src="assets/js/audio.js" charset="utf-8"></script>
+    <script src="assets/js/rocket.js" charset="utf-8"></script>
+    <script src="assets/js/player.js" charset="utf-8"></script>
+
+    <style media="screen">
+      *{
+        margin: 0;
+        padding: 0;
+      }
+      .modal{
+        position: fixed;
+        top:0
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        z-index: 9999;
+      }
+    </style>
   </head>
   <body>
-    <h1>HELLO WOLRD!</h1>
+
+    <div class="modal">
+      <div id="demo-holder"></div>
+    </div>
+    	<button type="button" onclick="musicaFundo()" id="musica" ><strong>Audio</strong></button>
+
+				   <!-- audios -->
+	  <audio id="myAudio"    loop
+        < source src="assets/audios/musicafundo1.mp3"
+         type='audio/mp3'>
+       </audio>
+
+      <audio id="somnave"
+        <source src="assets/audios/voando.wav"
+         type='audio/mp4'>
+
+       </audio>
+
+
+    <script src="assets/js/main.js" charset="utf-8"></script>
   </body>
 </html>
