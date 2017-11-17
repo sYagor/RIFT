@@ -12,7 +12,7 @@
     <header>
       <div class="header-top">
         <h1>R.Y.F.T</h1>
-        <div class="btn-toggle">
+        <div class="btn-toggle opened">
           <span></span>
         </div>
       </div>
@@ -93,7 +93,6 @@
             </div>
             <div class="item col-smal">
               <img src="assets/images/pecas/5.png" alt="peça">
-              <p>legenda</p>
               <p>Gasolina</p>
             </div>
             <div class="item col-smal">
@@ -102,7 +101,7 @@
             </div>
             <div class="item col-smal">
               <img src="assets/images/pecas/3.png" alt="peça">
-              <p>Motor de combustão</p>
+              <p>Motor de Combustão</p>
             </div>
           </div>
 
@@ -139,8 +138,10 @@
         $(".btn-toggle").on("click", function(){
           if($(".navbar").hasClass("opened")){
             $(".navbar").removeClass("opened");
+            $(".btn-toggle").removeClass("opened");
           }else{
             $(".navbar").addClass("opened");
+            $(".btn-toggle").addClass("opened");
           }
         });
       });
