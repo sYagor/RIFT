@@ -1,5 +1,5 @@
 class Player{
-  constructor(planet){
+  constructor(planet, name){
     this.planet = planet;												//planeta target
     this.planet.visited = true;
     this.pos = planet.pos.copy();										// posicao
@@ -16,6 +16,9 @@ class Player{
 	  this.rocket = new Rocket(this.pos, this.direction);
     this.visible = true;
     this.pieces = 0;
+
+    this.name = name.length > 0 ? name : "guest";
+
   }
 
   /**

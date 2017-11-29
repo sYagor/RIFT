@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Ryft</title>
     <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <script src="assets/js/jquery.js" charset="utf-8"></script>
     <script src="assets/js/p5.js" charset="utf-8"></script>
     <script src="assets/js/piece.js" charset="utf-8"></script>
     <script src="assets/js/planet.js" charset="utf-8"></script>
@@ -26,6 +27,18 @@
         z-index: 9999;
       }
     </style>
+    <script type="text/javascript">
+    window.onbeforeunload = function() {
+      var warning = true;
+      console.log(player.name);
+      url= "http://sitedoservidor.php?name="+player.nome+"&score="+player.pecas;
+      //codigo do requiest vai aqui
+       if (warning) {
+         var x = 1* 1;
+         return 'gambiarra para salvar os bangue';
+       }
+      }
+    </script>
   </head>
   <body>
 
@@ -47,6 +60,8 @@
        </audio>
 
 
-    <script src="assets/js/main.js" charset="utf-8"></script>
+    <script src="assets/js/main.js" charset="utf-8">
+
+    </script>
   </body>
 </html>

@@ -8,6 +8,8 @@ var engrenagem;
 var minWorldWidth = 0;
 var maxWorldWidth;
 var touching = false;
+
+
 function setup(){
   var canvas = createCanvas(innerWidth,innerHeight);
   maxWorldWidth = width;
@@ -25,7 +27,10 @@ function setup(){
   }
 
   planets[0].putPieces(5);
-  player = new Player (planets[0]);
+
+  var nome = getParam("name");
+  
+  player = new Player (planets[0], nome);
 
 }
 
@@ -146,4 +151,9 @@ function keyReleased(){
     default:
 
   }
+}
+
+function getParam(name){
+   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+      return decodeURIComponent(name[1]);
 }
