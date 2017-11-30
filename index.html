@@ -188,7 +188,7 @@
           e.preventDefault();
 
           //url do servidor
-          var url = "jogadores.json";
+          var url = "https://spacerift.000webhostapp.com/service.php?request=get";
           var jogadores = [];
           $.getJSON(url, function(data){
             for(i = 0; i < data.jogadores.length; i++){
