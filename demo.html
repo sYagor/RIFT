@@ -30,13 +30,12 @@
     <script type="text/javascript">
     window.onbeforeunload = function() {
       var warning = true;
-      var url= "https://spacerift.000webhostapp.com/service.php?request=insert&name="+player.nome+"&score="+player.pecas;
-      $.getJSON(url, function(){
-        console.log("success!");
-      })
       //codigo do requiest vai aqui
        if (warning) {
-         var x = 1* 1;
+         var url= "https://spacerift.000webhostapp.com/service.php?request=insert&name="+player.name+"&score="+player.pieces;
+         $.getJSON(url, function(){
+           console.log("success!");
+         });
          return 'gambiarra para salvar os bangue';
        }
       }

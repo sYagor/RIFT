@@ -29,7 +29,7 @@ function setup(){
   planets[0].putPieces(5);
 
   var nome = getParam("name");
-  
+  console.log(nome);
   player = new Player (planets[0], nome);
 
 }
