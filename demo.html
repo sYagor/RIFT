@@ -30,8 +30,10 @@
     <script type="text/javascript">
     window.onbeforeunload = function() {
       var warning = true;
-      console.log(player.name);
-      url= "http://sitedoservidor.php?name="+player.nome+"&score="+player.pecas;
+      var url= "https://spacerift.000webhostapp.com/service.php?request=insert&name="+player.nome+"&score="+player.pecas;
+      $.getJSON(url, function(){
+        console.log("success!");
+      })
       //codigo do requiest vai aqui
        if (warning) {
          var x = 1* 1;
