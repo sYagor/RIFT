@@ -1,8 +1,0 @@
-{
-  "jogadores" : [
-    { "nome" : "gabriel", "score" : 1},
-    { "nome" : "yago", "score" : 2},
-    { "nome" : "johnatan", "score" : 33},
-    { "nome" : "lucas", "score" : 4}
-  ]
-}
