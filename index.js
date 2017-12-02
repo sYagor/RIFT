@@ -113,6 +113,6 @@ app.get('/demo/player/:nome/:score', function (req, res) {
 });
 
 //inicia a bagaça toda
-app.listen(3000, function () {
+app.listen(8080, function () {
   console.log('Running!');
 });
