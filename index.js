@@ -32,6 +32,11 @@ function hangleDisconnect() {
 
 hangleDisconnect();
 
+//ao acessar a pagina principal, redireciona para o site do jogo
+app.get("/", function (req, res) {
+  res.redirect("https://syagor.github.io/RIFT/");
+})
+
 //lista todos os jogadores
 app.get('/players', function (req, res) {
   con.query("SELECT * FROM JOGADOR", function (err, result, fields) {
@@ -53,7 +58,7 @@ app.get('/player/:playerid', function (req, res) {
 });
 
 //salva o jogador
-app.put('/player/:name/:email', function (req, res) {
+app.post('/player/:name/:email', function (req, res) {
   var sql = "INSERT INTO JOGADOR (NOME, EMAIL) VALUES ('"+ req.params.name +"', '"+ req.params.email +"' )"
   con.query(sql, function (err, result) {
     if(err) throw err;
@@ -81,7 +86,7 @@ app.get("/item/:itemId", function (req, res) {
 
 
 // salva item no jogador
-app.put('/player/:playerid/:itemid', function (req, res) {
+app.post('/player/:playerid/:itemid', function (req, res) {
   var idJogador = req.params.playerid;
   var idItem = req.params.itemid;
   var sql = "INSERT INTO JOGADOR_ITEM (ID_JOGADOR, ID_ITEM) VALUES (" + idItem + ", " + idJogador + ")";
@@ -102,7 +107,7 @@ app.get('/demo/players',function (req, res) {
 });
 
 // salva jogador da demo
-app.get('/demo/player/:nome/:score', function (req, res) {
+app.post('/demo/player/:nome/:score', function (req, res) {
   var nome = req.params.nome;
   var score = req.params.score;
   var sql ="INSERT INTO JOGADORDEMO (nome, score) VALUES ('"+nome+"', "+score+")";
