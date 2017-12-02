@@ -5,7 +5,7 @@ var mysql = require('mysql');
 var app = express();
 
 var con = mysql.createConnection({
-  host: "spacerift.000webhostapp.com", //endereço do 000webhost
+  host: "mysql1.000webhostapp.com", //endereço do 000webhost
   user: "id3731954_zokgames",
   password: "terraplana",
   database: "id3731954_spacerift"
