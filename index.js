@@ -4,17 +4,33 @@ var path = require('path');
 var mysql = require('mysql');
 var app = express();
 
-var con = mysql.createConnection({
-  host: "mysql1.000webhostapp.com", //endereço do 000webhost
-  user: "id3731954_zokgames",
-  password: "terraplana",
-  database: "id3731954_spacerift"
-});
+var con;
 
-con.connect(function (err) {
-  if(err) throw err;
-  console.log("Connected!");
-});
+function hangleDisconnect() {
+  con = mysql.createConnection({
+    host: "sql10.freemysqlhosting.net", //endereço do 000webhost
+    user: "sql10208513",
+    password: "z3SyYGXSl5",
+    database: "sql10208513"
+  });
+
+  con.connect(function (err) {
+    if(err){
+      console.log("error when connecting to db: ", err);
+      setTimeout(hangleDisconnect, 2000);
+    }
+  });
+  con.on('error', function (err) {
+    console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST'){
+      hangleDisconnect();
+    }else {
+      throw err;
+    }
+  })
+}
+
+hangleDisconnect();
 
 //lista todos os jogadores
 app.get('/players', function (req, res) {
