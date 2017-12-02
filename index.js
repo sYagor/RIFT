@@ -16,11 +16,6 @@ con.connect(function (err) {
   console.log("Connected!");
 });
 
-//home page
-app.get('/', function (req, res) {
-  res.send('bem vindo ao RIFT WEB SERVICE =)');
-});
-
 //lista todos os jogadores
 app.get('/players', function (req, res) {
   con.query("SELECT * FROM JOGADOR", function (err, result, fields) {
