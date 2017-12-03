@@ -2,7 +2,12 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var mysql = require('mysql');
+var cors = require('cors');
+
 var app = express();
+
+//aceita requisicoes externas
+app.use(cors());
 
 var con;
 
@@ -27,7 +32,7 @@ function hangleDisconnect() {
     }else {
       throw err;
     }
-  })
+  });
 }
 
 hangleDisconnect();
@@ -35,12 +40,13 @@ hangleDisconnect();
 //ao acessar a pagina principal, redireciona para o site do jogo
 app.get("/", function (req, res) {
   res.redirect("https://syagor.github.io/RIFT/");
-})
+});
 
 //lista todos os jogadores
 app.get('/players', function (req, res) {
   con.query("SELECT * FROM JOGADOR", function (err, result, fields) {
     if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin','*');
     //editar json para bater com o modelo
     //nao faço ideia de como =|
     res.json(result);
@@ -53,8 +59,9 @@ app.get('/player/:playerid', function (req, res) {
   var sql = "SELECT * FROM JOGADOR WHERE id = " + id;
   con.query(sql, function (err, result, fields) {
     if(err) throw err
+    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
-  })
+  });
 });
 
 //salva o jogador
@@ -62,15 +69,16 @@ app.post('/player/:name/:email', function (req, res) {
   var sql = "INSERT INTO JOGADOR (NOME, EMAIL) VALUES ('"+ req.params.name +"', '"+ req.params.email +"' )"
   con.query(sql, function (err, result) {
     if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin','*');
     console.log("1 record inserted");
   });
-  res.send('salva usuario');
 });
 
 //lista os items
 app.get("/items", function (req, res) {
   con.query("SELECT * FROM ITEM", function (err, result, fields) {
     if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
   });
 });
@@ -80,6 +88,7 @@ app.get("/item/:itemId", function (req, res) {
   var sql = "SELECT * FROM ITEM WHERE ID = " + req.params.itemId;
   con.query(sql,function (err, result) {
     if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
   });
 });
@@ -92,16 +101,27 @@ app.post('/player/:playerid/:itemid', function (req, res) {
   var sql = "INSERT INTO JOGADOR_ITEM (ID_JOGADOR, ID_ITEM) VALUES (" + idItem + ", " + idJogador + ")";
   con.query(sql, function (err, resul) {
     if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin','*');
     console.log("An item was inserted into a player");
-  })
+  });
 });
 
+app.get('/player/:id/items/', function (req, res) {
+  var id = req.params.id;
+  var sql = "SELECT  * FROM JOGADOR_ITEM WHERE ID = "+ id;
+  con.query(sql, function (err, result) {
+    if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.json(result);
+  });
+});
 
 // daki pra baixo é o sistema de ranking da demo
 // lista jogadores da demo
 app.get('/demo/players',function (req, res) {
   con.query("SELECT * FROM JOGADORDEMO", function (err, result, fields) {
     if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
   })
 });
@@ -113,8 +133,9 @@ app.post('/demo/player/:nome/:score', function (req, res) {
   var sql ="INSERT INTO JOGADORDEMO (nome, score) VALUES ('"+nome+"', "+score+")";
   con.query(sql, function (err, result) {
     if(err) throw err;
+    res.setHeader('Access-Control-Allow-Origin','*');
     console.log("1 record inserted");
-  })
+  });
 });
 
 //inicia a bagaça toda

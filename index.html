@@ -188,24 +188,24 @@
           e.preventDefault();
 
           //url do servidor
-          var url = "https://spacerift.000webhostapp.com/service.php?request=get";
+          var link = "localhost:8080/demo/players";
           var jogadores = [];
-          $.getJSON(url, function(data){
-            for(i = 0; i < data.jogadores.length; i++){
-              var obj = data.jogadores[i];
-              jogadores.push(obj);
-            }
-            //classifica os jogadores
-            jogadores.sort(function(a,b){
-              return a.score - b.score;
-            })
+          var data;
 
-            for(i = jogadores.length - 1; i >= 0 ; i--){
-              $(".score-table ol").append("<li>" + jogadores[i].nome + " " + jogadores[i].score);
+          $.ajax({
+            url: link,
+            dataType: "json",
+            xhrFields: {
+              withCredentials: true
+            },
+            data: data,
+            success: function ( data ) {
+              alert(data);
+            },
+            fail: function () {
+              alert("asdf");
             }
           });
-
-
 
           $(".modal").addClass("visible");
         });

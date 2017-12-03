@@ -32,7 +32,10 @@
       var warning = true;
       //codigo do requiest vai aqui
        if (warning) {
-         var url= "https://spacerift.000webhostapp.com/service.php?request=insert&name="+player.name+"&score="+player.pieces;
+         var url= "https://spacerift.cleverapps.io/demo/player/"+player.name+"/"+player.pieces;
+         $.post(url, function () {
+           alert("success");
+         });
          $.getJSON(url, function(){
            console.log("success!");
          });
