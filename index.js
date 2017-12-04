@@ -2,12 +2,15 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var mysql = require('mysql');
-var cors = require('cors');
 
 var app = express();
 
 //aceita requisicoes externas
-app.use(cors());
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 var con;
 
@@ -131,5 +134,5 @@ app.post('/demo/player/:nome/:score', function (req, res, next) {
 
 //inicia a bagaça toda
 app.listen(8080, function () {
-  console.log('Running!');
+  console.log('Executando!');
 });
