@@ -38,15 +38,14 @@ function hangleDisconnect() {
 hangleDisconnect();
 
 //ao acessar a pagina principal, redireciona para o site do jogo
-app.get("/", function (req, res) {
+app.get("/", function (req, res, next) {
   res.redirect("https://syagor.github.io/RIFT/");
 });
 
 //lista todos os jogadores
-app.get('/players', function (req, res) {
+app.get('/players', function (req, res, next) {
   con.query("SELECT * FROM JOGADOR", function (err, result, fields) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin','*');
     //editar json para bater com o modelo
     //nao faço ideia de como =|
     res.json(result);
@@ -54,86 +53,78 @@ app.get('/players', function (req, res) {
 });
 
 //retorna jogador id = playerid
-app.get('/player/:playerid', function (req, res) {
+app.get('/player/:playerid', function (req, res, next) {
   var id = req.params.playerid;
   var sql = "SELECT * FROM JOGADOR WHERE id = " + id;
   con.query(sql, function (err, result, fields) {
     if(err) throw err
-    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
   });
 });
 
 //salva o jogador
-app.post('/player/:name/:email', function (req, res) {
+app.post('/player/:name/:email', function (req, res, next) {
   var sql = "INSERT INTO JOGADOR (NOME, EMAIL) VALUES ('"+ req.params.name +"', '"+ req.params.email +"' )"
   con.query(sql, function (err, result) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin','*');
     console.log("1 record inserted");
   });
 });
 
 //lista os items
-app.get("/items", function (req, res) {
+app.get("/items", function (req, res, next) {
   con.query("SELECT * FROM ITEM", function (err, result, fields) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
   });
 });
 
 //busca item por id
-app.get("/item/:itemId", function (req, res) {
+app.get("/item/:itemId", function (req, res, next) {
   var sql = "SELECT * FROM ITEM WHERE ID = " + req.params.itemId;
   con.query(sql,function (err, result) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
   });
 });
 
 
 // salva item no jogador
-app.post('/player/:playerid/:itemid', function (req, res) {
+app.post('/player/:playerid/:itemid', function (req, res, next) {
   var idJogador = req.params.playerid;
   var idItem = req.params.itemid;
   var sql = "INSERT INTO JOGADOR_ITEM (ID_JOGADOR, ID_ITEM) VALUES (" + idItem + ", " + idJogador + ")";
   con.query(sql, function (err, resul) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin','*');
     console.log("An item was inserted into a player");
   });
 });
 
-app.get('/player/:id/items/', function (req, res) {
+app.get('/player/:id/items/', function (req, res, next) {
   var id = req.params.id;
   var sql = "SELECT  * FROM JOGADOR_ITEM WHERE ID = "+ id;
   con.query(sql, function (err, result) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin', '*');
     res.json(result);
   });
 });
 
 // daki pra baixo é o sistema de ranking da demo
 // lista jogadores da demo
-app.get('/demo/players',function (req, res) {
+app.get('/demo/players',function (req, res, next) {
   con.query("SELECT * FROM JOGADORDEMO", function (err, result, fields) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin','*');
     res.json(result);
   })
 });
 
 // salva jogador da demo
-app.post('/demo/player/:nome/:score', function (req, res) {
+app.post('/demo/player/:nome/:score', function (req, res, next) {
   var nome = req.params.nome;
   var score = req.params.score;
   var sql ="INSERT INTO JOGADORDEMO (nome, score) VALUES ('"+nome+"', "+score+")";
   con.query(sql, function (err, result) {
     if(err) throw err;
-    res.setHeader('Access-Control-Allow-Origin','*');
     console.log("1 record inserted");
   });
 });

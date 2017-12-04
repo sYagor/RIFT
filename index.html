@@ -190,20 +190,14 @@
           //url do servidor
           var link = "localhost:8080/demo/players";
           var jogadores = [];
-          var data;
 
           $.ajax({
-            url: link,
+            type: "GET",
             dataType: "json",
-            xhrFields: {
-              withCredentials: true
-            },
-            data: data,
+            url: link,
+            contentType: "application/json; charset=utf-8",
             success: function ( data ) {
-              alert(data);
-            },
-            fail: function () {
-              alert("asdf");
+              console.log(data);
             }
           });
 
