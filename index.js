@@ -101,13 +101,13 @@ app.post('/player/:playerid/:itemid', function (req, res, next) {
   con.query(sql, function (err, resul) {
     if(err) throw err;
     console.log("An item was inserted into a player");
-    res.sendStatus(200)
+    res.sendStatus(200);
   });
 });
 
-app.get('/player/:id/items/', function (req, res, next) {
-  var id = req.params.id;
-  var sql = "SELECT  * FROM JOGADOR_ITEM WHERE ID = "+ id;
+app.get('/player/:email/items/', function (req, res, next) {
+  var email = req.params.email;
+  var sql = "SELECT  * FROM JOGADOR_ITEM WHERE EMAIL = '"+ email +"'";
   con.query(sql, function (err, result) {
     if(err) throw err;
     res.json(result);
