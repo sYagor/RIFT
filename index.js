@@ -105,9 +105,9 @@ app.post('/player/:playerid/:itemid', function (req, res, next) {
   });
 });
 
-app.get('/player/:email/items/', function (req, res, next) {
-  var email = req.params.email;
-  var sql = "SELECT  * FROM JOGADOR_ITEM WHERE EMAIL = '"+ email +"'";
+app.get('/player/:id/items/', function (req, res, next) {
+  var id = req.params.id;
+  var sql = "SELECT  * FROM JOGADOR_ITEM WHERE ID_JOGADOR = " + id;
   con.query(sql, function (err, result) {
     if(err) throw err;
     res.json(result);
