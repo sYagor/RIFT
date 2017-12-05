@@ -56,9 +56,9 @@ app.get('/players', function (req, res, next) {
 });
 
 //retorna jogador id = playerid
-app.get('/player/:playerid', function (req, res, next) {
-  var id = req.params.playerid;
-  var sql = "SELECT * FROM JOGADOR WHERE id = " + id;
+app.get('/player/:email', function (req, res, next) {
+  var email = req.params.email;
+  var sql = "SELECT * FROM JOGADOR WHERE EMAIL = " + email;
   con.query(sql, function (err, result, fields) {
     if(err) throw err
     res.json(result);
