@@ -66,12 +66,11 @@ app.get('/player/:email', function (req, res, next) {
 });
 
 //salva o jogador
-app.post('/player/:name/:email', function (req, res, next) {
+app.post("/player/:name/:email", function (req, res, next) {
   var sql = "INSERT INTO JOGADOR (NOME, EMAIL) VALUES ('"+ req.params.name +"', '"+ req.params.email +"' )"
   con.query(sql, function (err, result) {
     if(err) throw err;
     console.log("1 record inserted");
-    res.sendStatus(200)
   });
 });
 
@@ -94,14 +93,13 @@ app.get("/item/:itemId", function (req, res, next) {
 
 
 // salva item no jogador
-app.post('/add/:playerid/:itemid', function (req, res, next) {
+app.post("/add/:playerid/:itemid", function (req, res, next) {
   var idJogador = req.params.playerid;
   var idItem = req.params.itemid;
   var sql = "INSERT INTO JOGADOR_ITEM (ID_JOGADOR, ID_ITEM) VALUES (" + idItem + ", " + idJogador + ")";
   con.query(sql, function (err, resul) {
     if(err) throw err;
     console.log("An item was inserted into a player");
-    res.sendStatus(200);
   });
 });
 
@@ -131,7 +129,6 @@ app.post('/demo/player/:nome/:score', function (req, res, next) {
   con.query(sql, function (err, result) {
     if(err) throw err;
     console.log("1 record inserted");
-    res.sendStatus(200)
   });
 });
 
