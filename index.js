@@ -94,7 +94,7 @@ app.get("/item/:itemId", function (req, res, next) {
 
 
 // salva item no jogador
-app.post('/player/:playerid/:itemid', function (req, res, next) {
+app.post('/add/:playerid/:itemid', function (req, res, next) {
   var idJogador = req.params.playerid;
   var idItem = req.params.itemid;
   var sql = "INSERT INTO JOGADOR_ITEM (ID_JOGADOR, ID_ITEM) VALUES (" + idItem + ", " + idJogador + ")";
