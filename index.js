@@ -5,7 +5,7 @@ var mysql = require('mysql');
 
 var app = express();
 
-//aceita requisicoes externas
+// PARA ACEITAR RQUISIÇÕES EXTERNAS
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -14,9 +14,10 @@ app.use(function (req, res, next) {
 
 var con;
 
+// CONEXÃO COM SERVER MYSQL GRATIS POR 30 DIAS, MAS LENTO D+, O 000WEBHOST NAO FUNCIONOU COM HEROKU
 function hangleDisconnect() {
   con = mysql.createConnection({
-    host: "sql10.freemysqlhosting.net", //endereço do 000webhost
+    host: "sql10.freemysqlhosting.net", // SERVER MYSQL 
     user: "sql10208513",
     password: "z3SyYGXSl5",
     database: "sql10208513"
@@ -45,17 +46,18 @@ app.get("/", function (req, res, next) {
   res.redirect("https://syagor.github.io/RIFT/");
 });
 
-//lista todos os jogadores
+// LISTA TODOS JOGADORES
 app.get('/players', function (req, res, next) {
   con.query("SELECT * FROM JOGADOR", function (err, result, fields) {
     if(err) throw err;
-    //editar json para bater com o modelo
-    //nao faço ideia de como =|
+    // FALTA FAZER PARSE DO JSON NA UNITY
     res.json(result);
   });
 });
 
-//retorna jogador id = playerid
+// RETORNA 1 JOGADOR PELO E-MAIL DE CADASTRO (STRING SALVA NO PREFS DA UNITY)
+// É PRECISO FAZER O PARSE DO JSON PARA SALVAR OS DADOS LOCALMENTE E TER INFORMAÇÕES DE ACESSO
+// LEMBRAR QUE NO CADASTRO EU NÃO SEI QUAL ID O JOGADOR TERÁ NA TABELA SQL, BEM MAIS COMPLICADO BUSCAR POR ID
 app.get('/player/:email', function (req, res, next) {
   var email = req.params.email;
   var sql = "SELECT * FROM JOGADOR WHERE EMAIL = '" + email + "'";
@@ -65,7 +67,7 @@ app.get('/player/:email', function (req, res, next) {
   });
 });
 
-//salva o jogador
+// REGISTRA UM NOVO JOGADOR NOVO COM NOME E E-MAIL, ATRIBUINDO UMA ID.
 app.post("/player/:name/:email", function (req, res, next) {
   var sql = "INSERT INTO JOGADOR (NOME, EMAIL) VALUES ('"+ req.params.name +"', '"+ req.params.email +"' )"
   con.query(sql, function (err, result) {
@@ -75,7 +77,7 @@ app.post("/player/:name/:email", function (req, res, next) {
   });
 });
 
-//lista os items
+//RETORNA UMA LISTA COM TODOS OS ITEMS DA TABELA
 app.get("/items", function (req, res, next) {
   con.query("SELECT * FROM ITEM", function (err, result, fields) {
     if(err) throw err;
@@ -83,7 +85,7 @@ app.get("/items", function (req, res, next) {
   });
 });
 
-//busca item por id
+// BUSCA UM ITEM DE ACORDO COM A ID
 app.get("/item/:itemId", function (req, res, next) {
   var sql = "SELECT * FROM ITEM WHERE ID = " + req.params.itemId;
   con.query(sql,function (err, result) {
@@ -93,10 +95,11 @@ app.get("/item/:itemId", function (req, res, next) {
 });
 
 
-// salva item no jogador
+// SALVA UM 1 ITEM NO JOGADOR
 app.post("/add/:playerid/:itemid", function (req, res, next) {
   var idJogador = req.params.playerid;
   var idItem = req.params.itemid;
+  // DESTROCAR PORQUE O JOGADOR ESTA SENDO SALVO NO ITEM
   var sql = "INSERT INTO JOGADOR_ITEM (ID_JOGADOR, ID_ITEM) VALUES (" + idItem + ", " + idJogador + ")";
   con.query(sql, function (err, resul) {
     if(err) throw err;
@@ -105,6 +108,7 @@ app.post("/add/:playerid/:itemid", function (req, res, next) {
   });
 });
 
+// RETORNA TODOS OS ITEMS DE UM PLAYER ATRAVÉS DA ID DO MESMO
 app.get('/player/:id/items/', function (req, res, next) {
   var id = req.params.id;
   var sql = "SELECT  * FROM JOGADOR_ITEM WHERE ID_JOGADOR = " + id;
@@ -114,8 +118,8 @@ app.get('/player/:id/items/', function (req, res, next) {
   });
 });
 
-// daki pra baixo é o sistema de ranking da demo
-// lista jogadores da demo
+// RANKING DA DEMO DO SITE
+// LISTA DE JOGADORES DA DEMO
 app.get('/demo/players',function (req, res, next) {
   con.query("SELECT * FROM JOGADORDEMO", function (err, result, fields) {
     if(err) throw err;
@@ -123,7 +127,7 @@ app.get('/demo/players',function (req, res, next) {
   })
 });
 
-// salva jogador da demo
+// SALVA JOGADOR E PONTUAÇÃO NA DEMO
 app.post('/demo/player/:nome/:score', function (req, res, next) {
   var nome = req.params.nome;
   var score = req.params.score;
@@ -135,7 +139,7 @@ app.post('/demo/player/:nome/:score', function (req, res, next) {
   });
 });
 
-//inicia a bagaça toda
+// INICIA TUDO
 app.listen(8080, function () {
   console.log('Executando!');
 });
