@@ -1,3 +1,5 @@
+//v02
+
 class Player{
   constructor(planet, name){
     this.planet = planet;												//planeta target
